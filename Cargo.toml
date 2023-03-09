@@ -1,0 +1,56 @@
+[package]
+name = "tx-lang"
+edition = "2021"
+rust-version = "1.67"
+authors = ["Xavier Thomas <xavier.thomas.1980@gmail.com>"]
+description = "Lightweight, fast, modern and safe scripting language"
+keywords = [
+  "vm",
+  "compiler",
+  "interpreter",
+  "language",
+  "programming-language",
+  "single-pass",
+  "light",
+  "lightweight",
+  "safe",
+  "fast",
+]
+license = "MIT OR Apache-2.0"
+repository = "https://www.github.com/thmxv/tx-lang-rust"
+version = "0.1.0"
+
+[workspace]
+members = ["crates/*"]
+
+[[bin]]
+name = "tx"
+path = "src/main.rs"
+
+[features]
+default = ["lsp", "repl", "nan-boxing"]
+tx32 = ["tx-runtime/tx32"]
+nan-boxing = ["tx-runtime/nan-boxing"]
+debug-features = ["tx-runtime/debug-features"]
+gc-stress = ["tx-runtime/gc-stress"]
+repl = ["dep:tx-repl"]
+lsp = ["dep:tx-lsp"]
+
+[dependencies]
+tx-runtime.path = "crates/tx-runtime"
+tx-repl = { path = "crates/tx-repl", optional = true }
+tx-lsp = { path = "crates/tx-lsp", optional = true }
+clap = { version = "4.1.8", features = ["derive"] }
+
+[profile.release]
+opt-level = "z"
+codegen-units = 1
+debug = 0
+lto = true
+panic = "abort"
+strip = true
+
+[profile.pofiling]
+inherits = "release"
+debug = 1
+strip = false
