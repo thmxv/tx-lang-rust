@@ -1,14 +1,10 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+#![feature(allocator_api)]
+#![feature(ptr_internals)]
+mod allocator;
+mod chunk;
+mod dyn_array;
+mod hash_map;
+mod opcodes;
+mod types;
+mod value;
+mod vm;
